@@ -8,7 +8,7 @@
 */
 
 import router from '@adonisjs/core/services/router'
-const ProductsController = () => import('#controllers/products_controller')
+const ProductsController = () => import('../app/controllers/producer_controller.js')
 
 router.get('/', async () => {
   return {
@@ -17,7 +17,7 @@ router.get('/', async () => {
 })
 
 router.group(() => {
-  router.resource('products', ProductsController)
+  router.resource('producer', ProductsController)
   .as('/api/v1', false)
   .apiOnly()
 }).prefix('/api/v1')
