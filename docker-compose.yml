@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgress
+      - POSTGRES_DB=brain_ag_db
+    ports:
+     - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis:latest
+    networks:
+      - local-net
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redisdata:/data
+
+networks:
+  local-net:
+    driver: bridge
+
+ 
