@@ -17,7 +17,7 @@ router.get('/', async () => {
 })
 
 router.group(() => {
-  router.resource('producer', ProductsController)
+  router.resource('producers', ProductsController)
   .as('/api/v1', false)
   .apiOnly()
 }).prefix('/api/v1')

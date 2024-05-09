@@ -1,4 +1,5 @@
 import app from '@adonisjs/core/services/app'
+import joi from 'joi'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
@@ -13,6 +14,12 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    if (error instanceof joi.ValidationError) {
+      console.log('joi error')
+      return  ctx.response.status(400).send({
+        message: error.details.map(ex => ex.message)
+      })
+    }
     return super.handle(error, ctx)
   }
 

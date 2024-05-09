@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-
+import { createProducerValidation } from '#validators/producer_validator'
 export default class ProductsController {
 
   async index({}: HttpContext) {
@@ -10,7 +10,11 @@ export default class ProductsController {
 
   async store({ request }: HttpContext) {
     const body = request.body()
-    return body
+    try {
+      await createProducerValidation.validateAsync(body)
+    } catch (ex) {
+      throw ex
+    }
   }
 
   async show({  }: HttpContext) {}
