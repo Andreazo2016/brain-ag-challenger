@@ -57,6 +57,7 @@
     "@adonisjs/lucid": "^20.6.0",
     "@vinejs/vine": "^2.0.0",
     "cpf-cnpj-validator": "^1.0.3",
+    "http-status": "^1.7.4",
     "joi": "^17.13.1",
     "luxon": "^3.4.4",
     "pg": "^8.11.5",
