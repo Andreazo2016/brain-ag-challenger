@@ -1,8 +1,8 @@
 import { Producer } from "../models/producer.js";
 import db from '@adonisjs/lucid/services/db'
-
 export class ProducerService {
-    async save(producer: Producer){
+
+    async save(producer: Producer): Promise<number> {
         const trx = await db.transaction()
         try {
         const result = await trx.insertQuery().table('producers').returning('id').insert({
@@ -29,5 +29,9 @@ export class ProducerService {
             await trx.rollback()
             throw ex
         }
+    }
+    async getQtdFarms(){
+        const result = await db.from('producers').countDistinct('farm_name', 'total')
+        return Number(result[0].total)
     }
 }
