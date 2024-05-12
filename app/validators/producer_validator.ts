@@ -24,3 +24,27 @@ export const createProducerValidation = joi.object({
     total_area_farm: joi.number().positive().required(),
     planted_crops: joi.array().items(joi.string().valid('soja','milho','algodão','café', 'cana de açucar').required()).required()
 })
+
+export const updateProducerValidation = joi.object({
+    producer_name: joi.string(),
+    document: joi.string().max(14).custom((document: string) => {
+        if (document.length === 14) {
+            if(!cnpj.isValid(document)) {
+                return joi.forbidden()
+            }
+        } else if (document.length === 11) {
+            if(!cpf.isValid(document)) {
+                return joi.forbidden()
+            }
+        } else {
+            throw new Error('document is not cpf or cnpj');
+        }
+    }, 'cpf/cnpj validation'),
+    farm_name: joi.string(),
+    city: joi.string(),
+    total_area_arable: joi.number().positive(),
+    total_area_vegetation: joi.number().positive(),
+    state: joi.string(),
+    total_area_farm: joi.number().positive(),
+    planted_crops: joi.array().items(joi.string().valid('soja','milho','algodão','café', 'cana de açucar').required())
+})
