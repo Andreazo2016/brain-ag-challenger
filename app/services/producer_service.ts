@@ -34,4 +34,8 @@ export class ProducerService {
         const result = await db.from('producers').countDistinct('farm_name', 'total')
         return Number(result[0].total)
     }
+    async getTotalAreaFarms(){
+        const result = await db.from('producers').sum('total_area_farm', 'total')
+        return Number(result[0].total)
+    }
 }

@@ -9,6 +9,10 @@ export default class DashboardController {
 
   async index({}: HttpContext) {
     const farms = await this.producerService.getQtdFarms()
-    return { farms }
+    const total_area_farms = await this.producerService.getTotalAreaFarms()
+    return { 
+      farms,
+      total_area_farms
+     }
   }
 }
