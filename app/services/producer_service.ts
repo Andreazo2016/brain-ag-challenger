@@ -22,11 +22,13 @@ export class ProducerService {
             created_at: new Date()
         })
         const producerId = result[0].id
-        await trx.insertQuery().table('producer_crops') .multiInsert(producer.getPlantedCrops.map(cp => ({
-            crop_name: cp,
-            producer_id: producerId,
-            created_at: new Date()
-        })))
+        if (producer?.getPlantedCrops && producer?.getPlantedCrops.length > 0) {
+            await trx.insertQuery().table('producer_crops') .multiInsert(producer?.getPlantedCrops?.map(cp => ({
+                crop_name: cp,
+                producer_id: producerId,
+                created_at: new Date()
+            })))
+        }
         await trx.commit()
         return producerId
         } catch (ex) {
