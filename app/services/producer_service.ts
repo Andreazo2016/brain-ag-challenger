@@ -38,4 +38,18 @@ export class ProducerService {
         const result = await db.from('producers').sum('total_area_farm', 'total')
         return Number(result[0].total)
     }
+    async getTotalFarmByState(){
+        const result = await db.from('producers')
+        .select('state')
+        .count('farm_name', 'total')
+        .groupBy('state')
+        return result
+    }
+    async getTotalByCrops(){
+        const result = await db.from('producer_crops')
+        .select('crop_name')
+        .count('crop_name', 'total')
+        .groupBy('crop_name')
+        return result
+    }
 }

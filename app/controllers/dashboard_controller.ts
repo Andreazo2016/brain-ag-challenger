@@ -8,11 +8,17 @@ export default class DashboardController {
   constructor(protected producerService: ProducerService) {}
 
   async index({}: HttpContext) {
-    const farms = await this.producerService.getQtdFarms()
-    const total_area_farms = await this.producerService.getTotalAreaFarms()
+    const [farms, total_area_farms, farms_by_state, total_bry_crops] = await Promise.all([
+      this.producerService.getQtdFarms(),
+      this.producerService.getTotalAreaFarms(),
+      this.producerService.getTotalFarmByState(),
+      this.producerService.getTotalByCrops(),
+    ])
     return { 
       farms,
-      total_area_farms
+      total_area_farms,
+      farms_by_state,
+      total_bry_crops
      }
   }
 }
