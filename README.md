@@ -1,52 +1,125 @@
-# Teste - Brain Agriculture
+# Agro API
 
-O teste tem como objetivo acurar as habilidades do candidato em resolver alguns problemas relacionados à lógica de programação, regra de negócio e orientação à objetos.
+## Running Application
 
-O mesmo consiste em um cadastro de produtor rural com os seguintes dados:
+First, clone the project and install dependencies:
 
-1.  CPF ou CNPJ
-2.  Nome do produtor
-3.  Nome da Fazenda
-4.  Cidade
-5.  Estado
-6.  Área total em hectares da fazenda
-7.  Área agricultável em hectares
-8.  Área de vegetação em hectares
-9.  Culturas plantadas (Soja, Milho, Algodão, Café, Cana de Açucar)
+```shell
+npm install
+```
 
-# Requisitos de negócio
+Start the database:
 
-- O usuário deverá ter a possibilidade de cadastrar, editar, e excluir produtores rurais.
-- O sistema deverá validar CPF e CNPJ digitados incorretamente.
-- A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda
-- Cada produtor pode plantar mais de uma cultura em sua Fazenda.
-- A plataforma deverá ter um Dashboard que exiba:
-  - Total de fazendas em quantidade
-  - Total de fazendas em hectares (área total)
-  - Gráfico de pizza por estado.
-  - Gráfico de pizza por cultura.
-  - Gráfico de pizza por uso de solo (Área agricultável e vegetação)
+```shell
+docker-compose up -d --build
+```
+Seeds the infos
 
-# Requisitos técnicos
+```shell
+node ace db:seed
+```
 
-- O desenvolvedor front-end deverá utilizar:
+Then just start the application:
 
-  - [ReactJS](http://reactjs.org);
-  - [Redux](https://redux.js.org/) para controlar o estado da aplicação.
-    - Caso entenda que faça sentido, utilize [Context API](https://reactjs.org/docs/context.html) como recurso adicional ou substituto ao Redux (Opcional)
-  - Crie pelo menos um teste unitário por componente (Opcional)
-  - A criação das estruturas de dados "mockados" faz parte da avaliação.
+```shell
+npm start
+```
+or
+```shell
+npm run dev
+```
 
-- O desenvolvedor back-end deve:
-  - Salvar os dados em um banco de dados Postgres usando o NodeJS como layer de Backend, e entregar os endpoints para cadastrar, editar, e excluir produtores rurais, além do endpoint que retorne os totais para o dashboard.
-  - A criação das estruturas de dados "mockados" faz parte da avaliação.
+## Health Check
 
-  Desejável:
-  - TypeScript
-  - Conceitos como SOLID, KISS, Clean Code, API Contracts, Tests, Layered Architecture
+To verify if the application started up successfully, just try the health check:
 
-  Bonus:
-  - Aplicação disponibilizada em algum cloud provider de sua preferência
+[http://localhost:300/api/v1/health](http://localhost:3000/api/v1/health)
 
-- O desenvolvedor full-stack deve realizar ambos, e concluir a integração.
-  > Não envie a solução como anexo, suba os fontes para seu Github (ou outro repositório) e envie o link para o avaliador.
+## Endpoints
+
+create a producer:
+
+```shell
+POST http://localhost:3000/api/v1/producers
+{
+    "producer_name": "Teste Producer",
+    "farm_name": "Teste",
+    "document": "06121699361",
+    "city": "Solonopole",
+    "state": "Rio de Janeiro",
+    "total_area_arable": 2,
+    "total_area_vegetation": 1,
+    "total_area_farm":3,
+    "planted_crops": ["café"]
+}
+```
+
+Update a producer:
+
+```shell
+PUT http://localhost:3000/api/v1/producers/:id
+{
+    "producer_name": "Teste Producer",
+    "farm_name": "Teste",
+    "document": "06121699361",
+    "city": "Solonopole",
+    "state": "Rio de Janeiro",
+    "total_area_arable": 2,
+    "total_area_vegetation": 1,
+    "total_area_farm":3,
+    "planted_crops": ["café"]
+}
+```
+
+Delete a producer:
+
+```shell
+DELETE http://localhost:3000/api/v1/producers/:id
+```
+
+Dashboard:
+
+```shell
+GET http://localhost:3000/api/v1/dashboard
+{
+    "farms": 1,
+    "total_area_farms": 12,
+    "farms_by_state": [
+        {
+            "state": "São Paulo",
+            "total": "1"
+        },
+        {
+            "state": "Ceará",
+            "total": "2"
+        },
+        {
+            "state": "Rio de Janeiro",
+            "total": "1"
+        }
+    ],
+    "total_bry_crops": [
+        {
+            "crop_name": "milho",
+            "total": "3"
+        },
+        {
+            "crop_name": "café",
+            "total": "1"
+        },
+        {
+            "crop_name": "soja",
+            "total": "3"
+        }
+    ]
+}
+```
+
+[http://localhost:3000/health](http://localhost:3000/health)
+
+## Built With
+
+- [AdonisJS](https://adonisjs.com/) - Framework
+- [Postgres](https://www.postgresql.org/) - Database
+- [yarn](https://yarnpkg.com/) - Dependency Management
+- [Docker](https://www.docker.com/) - Containerization Platform

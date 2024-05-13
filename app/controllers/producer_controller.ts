@@ -49,7 +49,6 @@ export default class ProductsController {
       if (ex instanceof Joi.ValidationError) {
         throw ex
       }
-      console.log(ex)
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         message: 'Internal Server Error'
       })

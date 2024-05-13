@@ -11,7 +11,7 @@ import router from '@adonisjs/core/services/router'
 const ProductsController = () => import('../app/controllers/producer_controller.js')
 const DashboardController = () => import('../app/controllers/dashboard_controller.js')
 
-router.get('/', async () => {
+router.get('/health', async () => {
   return {
     hello: 'world',
   }

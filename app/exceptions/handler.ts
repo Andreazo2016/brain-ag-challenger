@@ -15,7 +15,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   async handle(error: unknown, ctx: HttpContext) {
     if (error instanceof joi.ValidationError) {
-      console.log('joi error')
       return  ctx.response.status(400).send({
         message: error.details.map(ex => ex.message)
       })
